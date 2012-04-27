@@ -1,0 +1,43 @@
+<<include path="./partials/header.html" title="Download – Flourish">>
+{{{
+#!raw
+<script src="/js/newest_tag.js"></script>
+}}}
+
+= Download =
+<<css mode="next" class="sidebar">>
+(((
+== Updating? ==
+ - View [/docs/BackwardsCompatibilityBreak backwards compatibility issues]
+)))
+
+{{{
+#!raw
+<p><a href="https://github.com/flourishlib/flourish-classes/tags" class="newest-tag-href action"><span class="de-em">Download: </span><span class="newest-tag">latest</span>.zip</a></p>
+}}}
+
+If you are new to Flourish, be sure to check out [/docs/GettingStarted Getting
+Started] and [/docs/HowDoI How Do I…?].
+
+== Git ==
+
+Primary Flourish development happens in git using GitHub as a central hub.
+
+'''Git Repository:''' git://github.com/flourishlib/flourish.git
+
+'''Clone Command:''' `git clone git://github.com/flourishlib/flourish.git`
+
+'''GitHub Project:''' https://github.com/flourishlib/flourish
+
+== SVN, Mercurial, Others ==
+
+Flourish used to be developed in an SVN repository and synced to a number of
+other version control systems. In early 2012 this system was migrated to
+GitHub to allow for easier collaboration.
+
+GitHub offers ways to checkout git repositories via 
+[https://github.com/blog/966-improved-subversion-client-support SVN] and
+[http://hg-git.github.com/ Mercurial]. Unfortunately the Darcs and Bazaar
+systems are no longer supported.
+
+<<include path="./partials/footer.html">>

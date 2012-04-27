@@ -1,0 +1,26 @@
+<<include path="../partials/header.html" title="Cutting Down on Spam – Blog – Flourish">>
+
+= Cutting Down on Spam =
+
+This post is now out of date since the forum has moved to a custom solution
+that integrates with GitHub via OAuth.
+
+== Original Post ==
+
+Last night I got fed up with the spam that was getting through on the forum and
+in tickets. While Akismet and the built-in spam filtering in Trac cut out
+99.9% of spam, it is frustrating for site participants to get notification
+emails about spam posts.
+
+In order to cut down on the spam messages even more, I've changed the site to
+require a user account to post. After finding almost 9,000 spam accounts
+created on the site, I've also implemented reCaptcha on the registration form.
+
+I apologize for the inconvenience of registering and logging in to participate,
+but I hope these steps can help keep the site even more spam free and keep the
+notifications relevant and frustration-free.
+
+If you haven't already created an account, jump over to the [/register
+registration page] and sign up!
+
+<<include path="../partials/footer.html">>

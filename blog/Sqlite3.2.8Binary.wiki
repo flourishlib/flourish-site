@@ -1,0 +1,58 @@
+<<include path="../partials/header.html" title="SQLite 3.2.8 Binary – Blog – Flourish">>
+
+= SQLite 3.2.8 Binary =
+
+This post is now very out of date, and the download links no longer work.
+
+== Original Post ==
+
+If you are working with a server running PHP 5.1.x (such as a VPS with CentOS
+4) you may have run into an issue with using SQLite as a database. The version
+of the `sqlite3` command line program is 3.3.6, however the version of the
+SQLite library used for the PDO SQLite driver is 3.2.8. To complicate matters
+further, between versions 3.2.8 and 3.3.0 the database file format was changed
+in a way that databases created by 3.3.0 and newer are not readable by 3.2.8
+and before.
+
+''In practical terms, this means you can't use the `sqlite3` binary provided by
+the OS to create a database to use with PHP.''
+
+Unfortunately the SQLite website has removed all source and binary files for
+everything before 3.6.x. While I was unable to find a 3.2.8 binary for linux,
+I was able to find a copy of the source tarball from an old Ubuntu repository,
+and I have mirrored it here along with a statically linked binary that I
+compiled.
+
+== Downloads ==
+
+ - [http://static.flourishlib.com/sqlite_3.2.8/sqlite3 SQLite 3.2.8 Linux
+   Binary]
+ - [http://static.flourishlib.com/sqlite_3.2.8/sqlite3_3.2.8.tar.gz SQLite
+   3.2.8 Tarball]
+
+== Simple/Quick Instructions ==
+
+The following directions will allow you to create a new SQLite 3.2.8 database
+on any linux server where you have SSH access:
+
+ 1. Log onto the server
+ 2. Execute: `wget http://static.flourishlib.com/sqlite_3.2.8/sqlite3`
+ 3. Execute: `chmod 755 sqlite3`
+ 4. Create a database: `./sqlite3 my_new_db`
+
+== Compiling ==
+
+If the pre-compiled binary I provided above does not work on your system, you
+should be able to fairly easily compile your own binary. You'll need standard
+compilation tools such as gcc, make, etc installed on your system.
+
+ 1. `tar xvfz sqlite3_3.2.8.tar.gz`
+ 2. `cd sqlite-3.2.8`
+ 3. `./configure --disable-tcl --disable-shared`
+ 4. `make`
+
+Once those four steps are complete, there will be an executable named `sqlite3`
+in the current directory. You can use that to create databases that will be
+compatible with the PDO SQLite driver in PHP 5.1.x.
+
+<<include path="../partials/footer.html">>

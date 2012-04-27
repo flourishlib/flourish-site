@@ -1,0 +1,49 @@
+<<include path="../partials/header.html" title="Prepared Statement Support Added – Blog – Flourish">>
+
+= Prepared Statement Support Added =
+
+Since back in December there has been kind of a lull in activity on Flourish
+due to some major work adding prepared statement support to fDatabase and
+re-architecting the tests. The result of this work was a new class added to
+Flourish, fStatement, that works in combination with fDatabase to provide
+prepared statement support across all database extensions. You can read more
+about it in the [/docs/fDatabase#PreparedStatements fDatabase section about
+Prepared Statements].
+
+A good amount of time was spent adapting the various PHP extension APIs to work
+with the existing fDatabase::query() style of using data-type-specific
+placeholders. As you can see below, using prepared statements with Flourish
+will feel very natural if you have used the other query methods.
+
+{{{
+#!php
+// Prepare a statement
+$statement = $db->prepare("SELECT * FROM users WHERE user_id = %i");
+
+// Execute it any number of times
+$user_1 = $db->query($statement, 1);
+$user_2 = $db->query($statement, 2);
+// …
+}}}
+
+The fDatabase::prepare() method will create an fStatement object out of
+database-specific SQL string, while fDatabase::translatedPrepare() will
+translate the SQL throught fSQLTranslation before creating the object. The
+object can then be passed in place of a SQL string to fDatabase::query() or
+fDatabase::unbufferedQuery().
+
+There are a couple of other methods that were added including
+fDatabase::execute() and fDatabate::translatedExecute(). These function the
+same as fDatabase::query() and fDatabase::translatedQuery(), respectively,
+except for the fact that they don't return anything. They will be useful for
+situations where the result of a SQL statement is not required, such as an
+`UPDATE` statement. As you would expect, an fStatement object can be passed as
+the first parameter to fDatabase::execute().
+
+I'll be posting another blog in the near future with some details of the new
+testing architecture, which was made possible by the [/docs/ServerFund server
+fundraiser] that was run last fall. A quick glance at the [/docs/Tests Tests]
+page will show that the tests run on each commit have gone up from around 2500
+to over 42,000!
+
+<<include path="../partials/footer.html">>

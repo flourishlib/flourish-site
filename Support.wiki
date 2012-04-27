@@ -1,0 +1,46 @@
+<<include path="./partials/header.html" title="Support – Flourish">>
+
+= Support =
+
+== Looking for Support? ==
+
+ - There is an IRC channel, #flourishlib on Freenode — accessible via any IRC
+   client or a simple [http://webchat.freenode.net/?channels=#flourishlib web
+   interface]
+ - The [http://forum.flourishlib.com discussion forum] allows your questions to
+   be seen by lots of people
+ - If you’ve found a bug or want to request a feature, you can create an issue
+   in the appropriate repository on GitHub:
+   - https://github.com/flourishlib/flourish-classes/issues
+   - https://github.com/flourishlib/flourish-tests/issues
+   - https://github.com/flourishlib/flourish-docs/issues
+
+If you are interested in custom development, consulting or paid support/help,
+please feel free to [mailto:will@wbond.net email me].
+
+== Want to Support Flourish? ==
+
+Below are some useful ways that you can help encourage the growth of Flourish,
+or just say “thanks.”
+
+ - Help others in the [http://forum.flourishlib.com discussion forum]
+ - [https://github.com/flourishlib Open issues or submit pull requests]
+ - [https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=will%40flourishlib%2ecom&item_name=Flourish&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8 Donate money] via PayPal
+ - [http://www.amazon.com/gp/registry/wishlist/2OLC10BQEZZMV/ref=wl_web Buy a
+   gift] from Amazon
+
+== Thank You! ==
+
+While support comes from many people in many ways, I’d like to extends a
+special thanks to those who've given their time, code, translations or money
+to help out:
+
+ - [http://www.imarc.net iMarc]
+ - Patrick McPhail of [http://blackfishinteractive.com Black Fish Interactive]
+ - Justin Noel
+ - Martin Santangelo
+ - Luke Foreman
+ - Nick Trew
+ - [http://gruppoambita.com Gruppo Ambita]
+
+ <<include path="./partials/footer.html">>

@@ -1,0 +1,26 @@
+<<include path="../partials/header.html" title="Do You Use ODBC? – Blog – Flourish">>
+
+= Do You Use ODBC? =
+
+Recently I've been running into more issues with ODBC not properly handling
+UTF-8 and blob data across the various databases that Flourish supports. I'm
+very strongly considering dropping ODBC support due to the fact that:
+
+ - None of the ODBC database drivers pass the tests on any OS but Windows
+ - There is no way to tell DB2 to use the UTF-8 encoding with ODBC
+ - Oracle via ODBC fails with UTF-8 so some characters must be escaped
+   using `CHR()`
+ - `CURRENT_TIMESTAMP` isn't implemented for Oracle when using ODBC
+ - The `pdo_odbc` driver in PHP 5.3 returns seemingly random data from an
+   MSSQL blob column
+
+Does anyone currently use an ODBC connection with fDatabase?
+
+== Update ==
+
+''7/31/10'' - As of revision 879, ODBC support is no longer
+provided in any of Flourish's database classes. ODBC support was removed since
+it was holding back perfect UTF-8 support, caused stability issues on some
+servers and did not appear to be used by anyone.
+
+<<include path="../partials/footer.html">>

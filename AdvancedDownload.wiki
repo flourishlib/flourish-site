@@ -1,0 +1,12 @@
+<<include path="./partials/header.html" title="Advanced Download – Flourish">>
+
+= Advanced Download =
+
+This page used to contain a form that allowed users to select specific Flourish
+classes and download a zip file containing all dependencies. Unfortunately 
+this is no longer since Flourish has moved hosting infrastructure to GitHub.
+
+Please see the [/docs/Download regular download page] to get an archive
+containing all of the classes.
+
+<<include path="./partials/footer.html">>

@@ -1,0 +1,53 @@
+<<include path="../partials/header.html" title="Moving to GitHub – Blog – Flourish">>
+
+= Moving to GitHub =
+[/blog See all blogs]
+
+In the next few weeks there are going to be a number of changes to the Flourish
+project. As you may have noticed, releases have slowed down quite a bit over
+the past few months as I've found my free time being split between Flourish
+and my Sublime Text work. Additionally, I'll soon be moving to a new company.
+
+Over the past few months I have found that the current infrastructure that
+Flourish is hosted on is preventing me from allowing others to contribute
+without giving them full access to my server. Because of this, I've decided
+it is time to move development and the website hosting over to
+[https://github.com GitHub]. This will allow me to easily permit access to the
+source code hosting and developers will be able to contribute code via pull
+requests. Other benefits include moving the class documentation in version
+control for easier collaboration.
+
+This move is going to have a few affects on Flourish and the website:
+
+ - Flourish will change to a [http://semver.org/ semantic versioning] system
+   since Git does not have a canonical revision number
+ - Tickets will be moved to GitHub issues
+ - The website and blog will be moved to a GitHub site powered by Jekyll
+ - The [/docs class and general documentation] will also
+   move to the GitHub site (not a GitHub wiki)
+ - The testing infrastructure will be moved to a system where the test VMs will
+   poll a GitHub repository and run tests on any new revisions, pushing results
+   back into another GitHub repo. Tests will likely be split into a separate
+   repo from the classes.
+ - The discussion board will hopefully be moved to Zoho Discussions, although I
+   am not sure if I will be able to preserve the current contents.
+
+Unfortunately there are a few things that aren't going to be supported moving
+forward. I would love to be able to continue supporting these, but I can't
+realistically do so with my other commitments. Sorry!
+
+ - All of the source code hosting other than Git will go away - this includes
+   SVN, Hg, Bazaar and Darcs.
+   [https://github.com/blog/966-improved-subversion-client-support GitHub
+   supports SVN clients] and the [http://hg-git.github.com/ Hg-Git] plugin
+   will hopefully be enough support for Mercurial users.
+ - The Advanced Download page will be going away. Moving forward there will
+   be more work done in manually documenting dependencies between code, but it
+   won't be possible to generate a zip file with just the required classes.
+
+There are probably a few other small things I missed, but I think that covers
+all of the big issues. If you are interested in assisting with the transition,
+I'd be happy to have some help in moving issues to GitHub, and possibly
+reviewing docs that have been converted.
+
+<<include path="../partials/footer.html">>

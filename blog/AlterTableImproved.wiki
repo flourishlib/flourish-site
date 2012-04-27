@@ -1,0 +1,177 @@
+<<include path="../partials/header.html" title="Alter Table Improved – Blog – Flourish">>
+
+= Alter Table Improved =
+
+A frequent complaint among developers dealing with relational database systems
+is dealing with database migrations. Depending on the size of the data you are
+working with, that may be the issue, however the syntax and features of
+`ALTER TABLE` statements vary greatly between database systems. I’ve recently
+added some functionality to Flourish to make `ALTER TABLE` statements not only
+more pleasant to work with, but consistent across MySQL, PostgreSQL, SQLite,
+Oracle, DB2 and Microsoft SQL Server.
+
+== Implementation ==
+
+Flourish now supports a full complement of `ALTER TABLE` statements that will
+run on MySQL, PostgreSQL, SQLite, Oracle, DB2 and Microsoft SQL Server. You
+can now write a single SQL migration script and run it on any supported
+database. fDatabase::translatedQuery() and fDatabase::translatedExecute() will
+utilize the new fSQLSchemaTranslation class when `CREATE TABLE`, `ALTER TABLE`,
+`DROP TABLE` and `COMMENT ON COLUMN` statements are run.
+
+Rather than trying to abstract the SQL language into PHP method calls, I’ve
+always opted with Flourish to translate SQL to the various dialects supported
+by the database in question. The goal here isn’t to provide an abstraction
+layer, but a translation layer. If you look at the guts of fSQLSchemaTranslation
+you’ll see there is quite a bit of pattern matching, SQL statement manipulation
+and schema catalog lookups.
+
+If you use PostgreSQL or Oracle you are probably used to fairly robust 
+support for SQL DDL statements. Unfortunately some of the other supported
+systems are a bit more painful to use. For MySQL, foreign key constraints must
+be dropped before any operations can be performed on the column or table
+they are associated with, and then once the operation is complete they must
+be re-created. SQL Server requires similar requirements for dropping
+and re-creating constraints, but even goes to the extreme of requiring it for
+default value constraints. SQLite barely supports any `ALTER TABLE` statements
+in version 3 and nothing is supported in version 2. DB2 requires some
+management of constraints, but also that you explicitly reorganize the table
+index after specific statements.
+
+What it comes down to is that to support more than a single database system,
+you end up having to handle all of these edge cases for each database system.
+This significantly slows down the development process and can be a downright
+frustrating experience. Flourish is here to help with that.
+
+== Show Me the Code! ==
+
+Here is a basic example of how you can create a database table that work on
+six different database systems. If you really want to dive right into the
+supported syntax, please check out the FlourishSql page.
+
+As I mentioned above, all of this functionality I’ll be explaining works through
+fDatabase. You don’t actually need to worry about the fSQLSchemaTranslation
+class at all. The class is separate from fSQLTranslation due to its sheer
+size, over five thousand lines of code. Simply pass a FlourishSql statement
+to fDatabase::translatedQuery() or fDatabase::translatedExecute() and you
+are in business.
+
+{{{
+#!php
+$db = new fDatabase('sqlite', './path/to/db');
+
+$db->translatedExecute("
+	CREATE TABLE users (
+		user_id INTEGER AUTOINCREMENT PRIMARY KEY,
+		name VARCHAR(200) NOT NULL,
+		email VARCHAR(200) NOT NULL UNIQUE
+	)
+");
+}}}
+
+Some of the nicest features of the translation layer in Flourish is that it
+handles even the gnarly edge cases like auto-incrementing integer primary keys.
+If you’ve ever worked with more than one database system I’m sure you are
+aware that they all have completely different syntax for this. PostgreSQL uses
+the `SERIAL` data type that implicitly creates a sequence. MySQL has a special
+keyword `AUTO_INCREMENT`. SQL Server uses an `IDENTITY` properly on the column.
+Oracle is possibly the most painful, requiring an explicit sequence to be created
+and then a trigger created to select values from the sequence and insert them
+into new records.
+
+`CREATE TABLE` support is all great and dandy and, in fact, Flourish has
+supported that since early on. What you really need to maintain an app that
+supports multiple databases is `ALTER TABLE` support. Here are some example
+statements:
+
+{{{
+#!php
+$db->translatedExecute("
+	ALTER TABLE users ADD COLUMN password VARCHAR(80) NOT NULL DEFAULT '';
+	ALTER TABLE users ALTER COLUMN password DROP DEFAULT;
+	ALTER TABLE users RENAME COLUMN email TO email_address;
+	ALTER TABLE users ALTER COLUMN name TYPE VARCHAR(250);
+");
+}}}
+
+== Useful Shorthand ==
+
+In addition to creating consistent syntax across all of the supported database
+systems, Flourish provides simple shorthand syntax for dealing with constraints.
+For many database systems it is necessary to use system-generated constraint
+names when dropping constraints, and for some it is necessary to create explicit
+constraint names upon creation.
+
+Here are examples of the shorthand available:
+
+{{{
+#!sql
+ALTER TABLE table ADD PRIMARY KEY (column) AUTOINCREMENT;
+ALTER TABLE table ADD UNIQUE (column1, column2);
+ALTER TABLE table ADD FOREIGN KEY (column) REFERENCES other_table(column) ON DELETE CASCADE;
+ALTER TABLE table ALTER COLUMN column SET CHECK IN ('Value 1', 'Value2');
+
+ALTER TABLE table DROP PRIMARY KEY;
+ALTER TABLE table DROP UNIQUE (column1, column2);
+ALTER TABLE table DROP FOREIGN KEY (column);
+ALTER TABLE table ALTER COLUMN column DROP CHECK;
+}}}
+
+You can visit the FlourishSql page for a complete list of all of the supported
+syntax.
+
+== Testing ==
+
+This sort of functionality wouldn’t really be possible without extensive
+testing. The addition of fSQLSchemaTranslation was joined by over 1500 new
+tests (when run on a server with all database extensions). Between the 12
+different machines and configurations Flourish is tested on, the grand total
+number of tests run on each commit increased by well over 10,000 tests.
+
+That said, the SQLite support is probably the least robust. While I’ve fairly
+extensively tested that SQLite tables created from FlourishSql statements can
+be altered, I would imagine there are some statements that may not work
+properly on all databases. Luckily SQLite supports DDL statements within
+transactions, meaning that your database will remain in a good state even if
+something fails. If you do experience any issues with SQLite, please
+[/newticket open a ticket] with your `CREATE TABLE` statement and the
+`ALTER TABLE` statement you executed, and I’ll fix fSQLSchemaTranslation to
+handle it.
+
+== Atomic Nature ==
+
+One of the other things I set as a requirement for implementing `ALTER TABLE`
+support was to make individual statements atomic in nature. While it is
+certainly possible that a SQL statement may fail, baring extenuating
+circumstances with MySQL or DB2 such as a hard drive being full, Flourish can
+ensure your database will either remain in its original state, or be
+properly altered.
+
+To make sure that operations are performed completely, or not at all, there
+are around 40 tests run per database system to test the atomic failure of
+`ALTER TABLE` statements. So like I said before, under normal operating
+conditions, Flourish will keep your database in a good state.
+
+As I mentioned, there are some edge cases with MySQL and DB2. Unfortunately
+MySQL does not support DDL statements within transactions, and
+additionally, it requires removing foreign key constraints for many operations.
+fDatabase and fSQLSchemaTranslation are written in such a way that rollback
+statements are created in case a statement fails. These rollback statements
+undo any partially complete changes. It is theoretically possible that a
+situation arises where MySQL will not permit the rollback statements to run
+if a serious error occurs.
+
+In a similar vein, DB2 support transactions for DDL statements, but requires
+table reorganization to occur after certain statements. This reorganization
+implicitly commits any open transaction. The failure edge case for DB2 would
+be if the primary statement succeeds and the reorganization succeeds, but
+remaining statements that re-create constraints fail.
+
+== What’s Next ==
+
+While this new functionality has undergone quite a bit of testing on my end,
+I’m sure there are some edge-case bugs. It will certainly become more robust
+over time as people like you take the time to [/newticket open tickets] and
+report bugs.
+
+<<include path="../partials/footer.html">>

@@ -1,0 +1,58 @@
+<<include path="../partials/header.html" title="Testing Enhancements – Blog – Flourish">>
+
+= Testing Enhancements =
+
+With the addition of [/blog/PreparedStatementSupportAdded comprehensive
+prepared statement support], I felt it time to invest in an enhanced testing
+architecture to help ensure that Flourish is as portable as possible. The work
+described below was possible due to the generous support received through the
+[/docs/ServerFund Server Fund] last fall.
+
+The hardware purchased with the server fund included an Intel Core i7 860
+processor and 8GB of ram. This hardware is used to run 11 different virtual
+machines:
+
+{{{
+#!raw
+<a href="/docs/Tests" style="float: right; margin-left: 2em; font-size: 0.85em; text-align: center; margin-bottom: 0.5em;"><img src="/blog/img/tests.png" alt="Testing Output" style="display: block;" />Test History Graphs</a>
+}}}
+
+ - A Debian database server running MySQL 5.0, PostgreSQL 8.3 and Oracle 10g XE
+ - A Windows XP machine used for running tests and running SQL Server 2005 and
+   SQL Server 2008
+ - Machines for running tests, including the following operating systems:
+  - CentOS 5.3, PHP 5.1.6
+  - Debian 5.0, PHP 5.2.6
+  - Fedora 12, PHP 5.3.2
+  - FreeBSD 7.2, PHP 5.2.12
+  - NetBSD 5.0, PHP 5.2.13
+  - OpenBSD 4.5, PHP 5.2.8
+  - OpenSolaris 2009.06, PHP 5.2.9
+  - OpenSuSE 11.2, PHP 5.3.1
+  - Ubuntu 8.10 LTS, PHP 5.2.4
+
+This extensive combination of operating systems and PHP versions ensure that
+Flourish is tested on most of the environments that may be encountered in the
+wild.
+
+To take advantage of this setup, an SVN post-commit hook is used to run the
+full test suite on all of the servers after each commit. As of the time of
+writing this article, 5989 tests have been written using
+[http://www.phpunit.de/ PHPUnit]. Each server reports the number of tests that
+passed, skipped, and failed. The [/docs/Tests Tests page] has graphs showing a
+history of the results for each server.
+
+Flourish has some extensive PHP and shell scripts that allow tests to be run on
+multiple different configurations per class and on remote servers with little
+effort. The different configurations allow running the tests with different PHP
+extensions loaded, or against different types of databases. When an extension
+or program is not available, or the test is not applicable to the current
+environment, it is skipped. It is by this functionality that all 16 supported
+database extensions can be tested.
+
+The current plans for improving this setup include obtaining a Mac Mini or
+notebook for OS X testing, and a copy of Microsoft Server 2008. If you, or
+someone you know, would be willing to donate either of these, please contact
+me at [mailto:will@wbond.net will@wbond.net].
+
+<<include path="../partials/footer.html">>

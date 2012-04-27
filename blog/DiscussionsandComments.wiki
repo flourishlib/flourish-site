@@ -1,0 +1,20 @@
+<<include path="../partials/header.html" title="Discussions and Comments – Blog – Flourish">>
+
+= Discussions and Comments =
+
+Just a few days ago I posted links to Flourish on both
+[http://news.ycombinator.com Hacker News] and the [http://reddit.com/r/PHP PHP
+Reddit]. There has been some great conversation about Flourish on those sites
+and on a thread over on the [http://codeigniter.com/forums/ CodeIgnitor forums].
+
+ - [http://news.ycombinator.com/item?id=431062 Flourish on Hacker News]
+ - [http://www.reddit.com/r/PHP/comments/7p7no/flourish_a_developerfriendly_php_library/ Flourish on Reddit]
+ - [http://codeigniter.com/forums/viewthread/102299/ CodeIgnitor Forums: Is the
+   reign of frameworks over?]
+
+If you run across any other conversations, I'd love to hear about them. And
+as always, please feel free to comment on this post or
+[http://forum.flourishlib.com start a thread] with any suggestions or questions
+you may have.
+
+<<include path="../partials/footer.html">>

@@ -1,0 +1,13 @@
+<<include path="./partials/header.html" title="Tests – Flourish">>
+
+= Tests =
+
+Flourish has a set of unit and integration tests to help ensure bugs don’t
+exist in the code base, helping developers focus on their code. These test
+are performed on all code pushed to the
+[https://github.com/flourishlib/flourish-staging flourish-staging repo].
+Each chart represents a different operating system and PHP version
+that the tests are run on. The tests source is available via
+[https://github.com/flourishlib/flourish-tests GitHub].
+
+<<include path="./partials/footer.html">>

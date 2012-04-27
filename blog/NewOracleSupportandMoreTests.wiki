@@ -1,0 +1,27 @@
+<<include path="../partials/header.html" title="New Oracle Support and More Tests – Blog – Flourish">>
+
+= New Oracle Support and More Tests =
+
+After some prodding from a few interested parties, I took it upon myself to
+add Oracle support to Flourish. There now exists full support for Oracle in
+the fDatabase, fResult, fUnbufferedResult, fSchema and fSQLTranslation classes.
+I've targeted Oracle 10g since I have free access to that via Oracle Database
+10g Express Edition, however I believe almost all of the functionality should
+work on older versions.
+
+In addition to adding support for Oracle, I took the past couple of months to
+add over [/docs/Tests 1800 new tests] that exercise all 16 supported database
+extensions and cover most of the functionality of the fDatabase, fResult,
+fUnbufferedResult, fSchema and fSQLTranslation classes.
+
+Like other supported databases, the Oracle support in fDatabase will work with
+any of the available database extensions for Oracle. This includes OCI8,
+PDO_OCI, ODBC and PDO_ODBC. From my testing, the ODBC extensions only work on
+Windows because some of the `ALTER SESSION` commands executed by fDatabase are
+not supported by the UnixODBC driver. If you have any details on a better way
+to configure ODBC on Linux/BSD, please let me know.
+
+In closing I'd like to say thanks to Chris Jones from Oracle and Aurélien
+Chivot for their assistance during this process!
+
+<<include path="../partials/footer.html">>

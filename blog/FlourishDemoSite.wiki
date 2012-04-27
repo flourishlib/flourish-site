@@ -1,0 +1,88 @@
+<<include path="../partials/header.html" title="Flourish Demo Site – Blog – Flourish">>
+
+= Flourish Demo Site =
+
+If you've never worked with Flourish before, getting started building a site
+may seem a little daunting. Included below is the description and source code
+for a production site written with Flourish and SQLite.
+
+The [http://northshorewebgeeks.com northshorewebgeeks.com] site provides a
+simple list of upcoming and past meetups for the North Shore Web Geeks meetup.
+Rather than hand-editing the HTML and RSS feeds, Flourish was set up to provide
+a simple CMS to easily update the information.
+
+== Source Code ==
+
+The source code for the demo can be found in the
+[https://github.com/flourishlib/flourish-demo-site flourish-demo-site
+repository] on Github. Github has a nice little code browser, so you can view
+the code without downloading or cloning.
+
+== Routing ==
+
+The site is fairly simple, so I set up Apache with
+[http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html mod_rewrite] to create
+some nice, clean URLs:
+
+{{{
+/                     # -> index.php  : Home/main page
+/rss                  # -> index.php  : RSS feed
+/manage               # -> manage.php : Lists all meetups
+/manage/add           # -> manage.php : Allows adding a meetup
+/manage/{date}/edit   # -> manage.php : Allows editing a meetup
+/manage/{date}/delete # -> manage.php : Allows deleting a meetup
+/log_in               # -> login.php  : Allows a user to log in
+/log_out              # -> login.php  : Lets the user log out
+/sup/*                # -> sup/*      : Static files including CSS and images
+}}}
+
+Anything other than those URLs will cause the page at `views/404.php` to be
+shown.
+
+== Directory Structure ==
+
+The files on the filesystem are organized in the following structure:
+
+{{{
+/                     # The three php scripts that handle requests
+/inc/                 # The bootstrap script init.php and config file
+/inc/classes/         # The ORM classes
+/inc/flourish/        # Flourish classes
+/storage/db/          # The SQLite database the source .sql file
+/storage/session/     # The PHP session files
+/sup/css/             # The CSS files
+/sup/img/             # The images
+/views/               # The HTML templates for the site
+}}}
+
+== Request Handling ==
+
+As requests are received, they are routed the appropriate PHP page by
+`mod_rewrite`, however each of these pages first runs the bootstrapping code
+in `inc/`. Here is an example of the execution order:
+
+{{{
+config.php -> init.php -> manage.php
+}}}
+
+== Live Instance ==
+
+''There used to be a live instance of the site running, but it has since been
+removed.''
+
+== Installation ==
+
+If you wish to run the demo site on your own server, you’ll need to download
+the source from github and recursively `chmod` the `storage` directory to
+`777`. This allows the web server to write to the SQLite database and session
+directory.
+
+{{{
+chmod -R 777 /path/to/flourish_demo_site/storage
+}}}
+
+All files included with the demo site, except for graphics and CSS files, are
+licensed under the MIT license. Graphics and CSS files are only provided for
+demo purposes. Please see the `license.txt` file for more details.
+
+<<include path="../partials/footer.html">>

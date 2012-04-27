@@ -1,0 +1,45 @@
+<<include path="../partials/header.html" title="Contributing – Blog – Flourish">>
+
+= Contributing =
+
+Recently there has been some increased interest in contributing to Flourish.
+If you are interested in helping out with the project, I’m sure that everyone
+who uses it would be very grateful. The way that things of have been going
+recently, I’m going to start focusing more on approaching a stable release.
+Over the past year the beta has helped to improve the available functionality,
+increase its robustness and work out quite a number of bugs.
+
+As the code moves to a stable release, I foresee more of a focus on improving
+[/docs documentation] and writing [/docs/Tests tests]. There are
+also currently a number of tickets for enhancements, plus there are some items
+on the [/docs/Roadmap original roadmap] still to tackle.
+
+So, if you do have interest in contributing to the project, please consider how
+you may be able to help out with:
+
+ - Writing patches for tickets
+ - Reading the [/docs documentation] and providing edits or
+   improvements
+ - Writing [/docs/Tests tests]
+ - Answering questions in the [http://forum.flourishlib.com forums]
+
+I’m currently not looking to add much more to Flourish. Right now it serves as
+a fairly general-purpose library for website and application development,
+without being tied into third party services and without getting too much into
+markup generation. It has fairly good support across different environments and
+databases, and provides a more stream-lined API for a lot that is already
+possible with PHP.
+
+Third party services — things like twitter, flickr, payment gateways, etc — all
+require keeping up with changes to the APIs. I feel that individual libraries
+will be better able to keep up with changes to the services and providing
+product-specific features. In regards to the generation of HTML, since there
+are so many different approaches and styles, I think staying out of that arena
+as much as possible will help me to stay focused on what Flourish already does.
+
+If you are interested in writing code or editing documentation, please note
+that you will need to sign a [/docs/ContributorLicenseAgreements contributor
+license agreement] (CLA) to help protect users of Flourish and myself from
+legal issues.
+
+<<include path="../partials/footer.html">>

@@ -1,0 +1,95 @@
+<<include path="../partials/header.html" title="Blog – Flourish">>
+
+= Blog =
+
+== [/blog/MovingtoGitHub Moving to GitHub] ==
+''4/2/12''
+
+In the next few weeks there are going to be a number of changes to the Flourish
+project. As you may have noticed, releases have slowed down quite a bit over the
+past few months as I've found my free time being split between Flourish and my
+Sublime Text work. Additionally, I'll soon be moving to a new company.
+
+Over the past few months I have found that the current infrastructure that
+Flourish is hosted on is preventing me from allowing others to contribute
+without giving them full access to my server. Because of this, I've decided it
+is time to move development and the website hosting over to GitHub. This will
+allow me to easily permit access to the source code hosting and developers will
+be able to contribute code via pull requests. Other benefits include moving the
+class documentation in version control for easier collaboration.
+
+[/blog/MovingtoGitHub Read more…]
+
+
+== [/blog/AlterTableImproved Alter Table Improved] ==
+''5/24/11''
+
+A frequent complaint among developers dealing with relational database systems
+is dealing with database migrations. Depending on the size of the data you are
+working with, that may be the issue, however the syntax and features of
+`ALTER TABLE` statements vary greatly between database systems. I’ve recently
+added some functionality to Flourish to make `ALTER TABLE` statements not only
+more pleasant to work with, but consistent across MySQL, PostgreSQL, SQLite,
+Oracle, DB2 and Microsoft SQL Server.
+
+[/blog/AlterTableImproved Read more…]
+
+
+== [/blog/PHPTek11 PHP|Tek 2011] ==
+''5/18/11''
+
+One week from today, the annual PHP|Tek conference returns to Chicago for the
+2011 edition. I'm excited that I'm able to attend this year, and I'd love to
+meet some Flourish users in person! So, whether you want to ask questions,
+suggest improvements, or grill me on the finer points of how to over-use regular
+expressions, I'm down. :-)
+
+The easiest way to get in contact will be through Twitter
+[http://twitter.com/flourishlib @flourishlib]. I'll also be
+available via my personal account, [http://twitter.com/wbond @wbond], but I'm
+going to try and keep that to replies. I look forward to meeting you there!
+
+
+== [/blog/PHPFloatingPointBug PHP Floating Point Bug] ==
+''1/14/11''
+
+Just last week a rather serious denial of service (DoS) vulnerability was
+found in PHP, affecting versions 5.2.0 through 5.2.16 and 5.3.0 through 5.3.4.
+The bug, [http://bugs.php.net/53632 #53632], causes PHP to enter an infinite
+loop when working with the value `2.2250738585072011e-308` as a floating point
+number. The simple submission of this value to a site multiple times can easily
+cause the web server to become unresponsive to users.
+
+The good news is that if you are using fRequest::get() and passing `float` to
+the `$cast_to` parameter and Flourish r950 or newer, you will be automatically
+protected from this vulnerability. The value `2.2250738585072011e-308` will be
+converted to `2.2250738585072012e-308`, which resolves to the same floating
+point value, but does not cause the infinite loop.
+
+If you are using an older revision of Flourish, I strongly recommend you use
+the `flourish.rev` file in your Flourish directory with the
+[/docs/BackwardsCompatibilityBreak backwards compatibility breaks page] to
+upgrade your code to the latest revision.
+
+
+== [/blog/60000Tests Testing Across 12 OSes, 10 Versions of PHP and 6 Databases ] ==
+''8/4/10''
+
+Part of the goal of Flourish is to provide a solid library of code to build
+web apps and websites on top of. Since PHP runs on such a variety of operating
+systems and many users do not control the server they are installed on,
+operating system and PHP version compatibility is important. Thanks to recent
+donations by [http://imarc.net iMarc] and Luke Foreman, the [/docs/Tests
+testing setup] has been expanded to include OS X 10.6 and Windows Server 2008.
+
+With these changes, [/docs/Tests over 60,000 tests] are run with every SVN
+commit, on a total of 10 different versions of PHP, running on 12 different
+server environments. All database-related tests are run on the six supported
+databases, and most are run using each of the 14 supported database extensions
+against eight different database versions. In situations where Flourish
+provides a pure-PHP fallback implementation of a non-standard PHP extension,
+the tests are run both with the non-standard extension loaded and not.
+
+[/blog/60000Tests Read more…]
+
+<<include path="../partials/footer.html">>

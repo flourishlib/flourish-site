@@ -1,0 +1,140 @@
+<<include path="../partials/header.html" title="Testing Across 12 OSes, 10 Versions of PHP and 6 Databases – Blog – Flourish">>
+
+= Testing Across 12 OSes, 10 Versions of PHP and 6 Databases =
+
+Part of the goal of Flourish is to provide a solid library of code to build
+web apps and websites on top of. Since PHP runs on such a variety of operating
+systems and many users do not control the server they are installed on,
+operating system and PHP version compatibility is important. Thanks to recent
+donations by [http://imarc.net iMarc] and Luke Foreman, the [/docs/Tests
+testing setup] has been expanded to include OS X 10.6 and Windows Server 2008.
+
+With these changes, [/docs/Tests over 60,000 tests] are run with every SVN
+commit, on a total of 10 different versions of PHP, running on 12 different
+server environments. All database-related tests are run on the six supported
+databases, and most are run using each of the 14 supported database extensions
+against eight different database versions. In situations where Flourish
+provides a pure-PHP fallback implementation of a non-standard PHP extension,
+the tests are run both with the non-standard extension loaded and not.
+
+{{{
+#!raw
+<div style="width: 600px;">
+<div class="stacked_first" style="width: 35%;">
+	<h3>Operating Systems</h3>
+	<ul>
+		<li>CentOS 5.3</li>
+		<li>Debian 5.0</li>
+		<li>Fedora 12</li>
+		<li>FreeBSD 7.2</li>
+		<li>NetBSD 5.0.1</li>
+		<li>OpenBSD 4.5</li>
+		<li>OpenSolaris 2009.06</li>
+		<li>OpenSuSE 11.2</li>
+		<li>OS X 10.6</li>
+		<li>Ubuntu 8.04 LTS</li>
+		<li>Windows Server 2008</li>
+		<li>Windows XP</li>
+	</ul>
+</div>
+<div class="stacked" style="width: 25%;">
+	<h3>PHP Versions</h3>
+	<ul>
+		<li>5.3.3</li>
+		<li>5.3.2</li>
+		<li>5.3.1</li>
+		<li>5.2.13</li>
+		<li>5.2.12</li>
+		<li>5.2.9</li>
+		<li>5.2.8</li>
+		<li>5.2.6</li>
+		<li>5.2.4</li>
+		<li>5.1.6</li>
+	</ul>
+</div>
+<div class="stacked">
+	<h3>Databases</h3>
+	<ul>
+		<li>DB2 Express-C 9.7</li>
+		<li>MySQL 5.0</li>
+		<li>Oracle 10g XE</li>
+		<li>PostgreSQL 8.3</li>
+		<li>SQLite 2</li>
+		<li>SQLite 3</li>
+		<li>SQL Server 2005</li>
+		<li>SQL Server 2008</li>
+	</ul>
+</div>
+<div style="clear: left;"></div>
+</div>
+}}}
+
+At the end of the day, this helps to ensure that Flourish will work if you
+deploy it on a RHEL 4 server running PHP 5.1.6, a Windows Server 2008 machine
+running PHP 5.3.3 or a Solaris box with PHP 5.2.9.
+
+== The Setup ==
+
+Throwing around numbers is great and all, but I'd like to touch on the setup
+a little bit. Flourish uses [http://phpunit.de PHPUnit] for unit and
+integration tests. And yes, many of the test aren't true unit tests. Since
+portability and compatibility are key, I want all of the code to actually run.
+If I were to have written pure unit tests, I would have mocked all sorts of
+dependencies and missed quite a number of bugs in PHP and bizarre edge cases.
+
+{{{
+#!raw
+<div style="text-align: center; float: left; margin-right: 1.5em; font-size: 0.8em; margin-top: 1.1em; margin-bottom: 1.5em;">
+    <a href="/blog/img/tests_example-large.png"><img src="/blog/img/tests_example.png" alt="tests.php example output" style="border: 6px solid #b7b7b7;" /></a><br /><tt>tests.php</tt> example output
+</div>
+}}}
+
+PHPUnit contains an awesome amount of functionality, however when I started
+with it, it did not allow for running tests with different PHP configuration.
+I wouldn't be surprised if [http://twitter.com/s_bergmann Sebastian] has added
+the functionality in 3.4 or 3.5, but I started this whole process back with
+3.3 so I created my own solution. There is a PHP test runner `tests.php` that
+parses class config files and runs the tests once for each different
+configuration. It has evolved over time, and isn't the prettiest thing I've
+ever written, but it gets the job done.
+
+`tests.php` includes some other functionality, including a column-based,
+color-coded shell output for interactive testing and JSON output for automated
+testing. It allows for configuration values to be passed at run time (through a
+nasty PHP ini hack) so that passwords don't need to be hard coded in the tests
+and inadvertantly leaked through a source code repositories. In addition, you
+can included or exclude specific classes and filter the configurations to be
+run.
+
+{{{
+#!raw
+<div style="float: right; text-align: center; font-size: 0.8em; margin-left: 1.5em; margin-top: 1.1em; margin-bottom: 1.5em;">
+    <a href="/blog/img/remote_tests_example-large.png"><img src="/blog/img/remote_tests_example.png" alt="remote_tests.sh example output" style="border: 6px solid #b7b7b7;" /></a><br /><tt>remote_tests.sh</tt> example output
+</div>
+}}}
+
+Once the local test runner once was written, I went to work setting up a bunch
+of virtual machines. There are a total of 12 VMs running on two different
+physical machines, an Intel i7 quad-core with 8GB of ram and a dual-core iMac
+with 3GB ram. One of the virtual machines runs DB2, MySQL, Oracle and
+PostgreSQL, while another runs SQL Server 2005 and 2008. Every machine,
+including Windows, is running OpenSSH, allowing for key-based authentication
+and distribution of the tests. I leave the stock OS configuration alone as much
+as possible, but install PHP, various extensions, PHPUnit, some command line
+database programs and configure the various local sendmail implementations to
+route through an SMTP relay. Where possible I use the OS-supplied PHP packages
+in an effort to find bugs related to common environments.
+
+To run the rests on the virtual machines, I use a custom bash script
+`remote_tests.sh` that `scp`s a tarball to each machine and then invokes
+`tests.php` over `ssh`. `remote_tests.sh` allows for parallel execution of the
+test scripts for the different database types, however I found that performance
+decreased due to disk thrashing. It also allows checking the remote server
+configuration to show the installed PHP version and the install status of both
+required and optional PHP extensions.
+
+I haven't spent much time abstracting or refining this setup for use by others,
+but I could see it being useful for library and framework maintainers. You can
+check out the code at http://github.com/flourishlib/flourish-tests.
+
+<<include path="../partials/footer.html">>

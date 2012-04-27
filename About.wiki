@@ -1,0 +1,26 @@
+<<include path="./partials/header.html" title="About – Flourish">>
+
+= About =
+
+Flourish is an independent PHP library that I have developed during the past
+few years of my free time. Unsatisfied with the current options available for
+PHP frameworks and libraries, I took it upon myself to build one that would
+fulfill my needs. As the project progressed I made the decision to release it
+as open source, in the hope that it would save someone else from having to
+rewrite a similar solution.
+
+If you are interested in the needs that Flourish helps fulfill, please check
+out the [/docs/MotivationsForFlourish Motivations for Flourish] page.
+
+== About Me ==
+
+My name is Will Bond, and I live in Newbury, MA, about 30 minutes north of
+Boston. During the day I work as the Senior Tech Architect at
+[http://imarc.net iMarc], in Newburyport, MA. While not working with computers,
+I spend most of my free time with my wife and children. 
+
+If you are from around the North Shore in MA, please drop by one of the
+[http://northshorewebgeeks.com North Shore Web Geeks] meetups and say hi! You
+can also find me on the web at http://wbond.net.
+
+<<include path="./partials/footer.html">>

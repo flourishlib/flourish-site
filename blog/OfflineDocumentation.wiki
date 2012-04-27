@@ -1,0 +1,29 @@
+<<include path="../partials/header.html" title="Offline Documentation – Blog – Flourish">>
+
+= Offline Documentation =
+
+After a handful of requests, I finally took some time this weekend to create
+some offline documentation for Flourish. Starting with r879, every SVN commit
+and every time a class documentation page is updated, a single HTML page is
+created that contains all of the class documentation, API reference, and
+relevant general documentation.
+
+{{{
+#!raw
+<div style="text-align: center; margin: 2em 0;"><a href="http://docs.flourishlib.com/single_page_docs/flourish_r880.html"><img src="http://static.flourishlib.com/offline_docs.png" alt="Offline Documentation Preview" style="border: 6px solid #b7b7b7;" /></a></div>
+}}}
+
+The file uses the [http://en.wikipedia.org/wiki/Data_URI_scheme data URI scheme]
+to allow for a single file containing all HTML, images, CSS and javascript. As
+long as you aren't using Internet Explorer, you'll even see the Flourish
+favicon.
+
+Unfortunately, IE6 and IE7 don't support the data URI scheme and thus may not
+show all images. You probably won't want to use IE anyway, since it can't
+handle the 4mb of HTML without slowing to a crawl. Chrome, Firefox, Opera and
+Safari all seem to perform just great.
+
+Head on over to the [/docs Documentation page] to grab a copy
+while it's hot!
+
+<<include path="../partials/footer.html">>

@@ -1,0 +1,29 @@
+<<include path="../partials/header.html" title="DB2 Support Added – Blog – Flourish">>
+
+= DB2 Support Added =
+
+Last night I completed the final additions to the core database layer of
+Flourish by adding support for [http://www.ibm.com/db2 IBM's DB2]. Along with
+support in all of the core database classes, such as fDatabase and fResult,
+DB2 support was added to fSchema and fSQLTranslation, which means that DB2
+is fully supported by the ORM. The [/docs/FlourishSql Flourish SQL] page has
+been updated to show the non-translated compatibility of DB2 to the other
+supported databases.
+
+Currently only the [http://php.net/ibm_db2 ibm_db2] extension is supported for
+DB2 access due to issues with the others. The [http://php.net/pdo_ibm pdo_ibm]
+extension currently has serious issues that cause PHP to segfault when trying
+to access CLOB or BLOB data. The [http://php.net/odbc odbc] and
+[http://php.net/pdo_odbc pdo_odbc] drivers are not currently supported because
+I have not found a way to get proper UTF-8 support on Windows machines. If you
+have any experience with DB2 on Windows, please
+[http://www.ibm.com/developerworks/forums/thread.jspa?threadID=325160&tstart=0
+check out my post] on the IBM developerWorks forum.
+
+In the coming weeks I will be announcing SMTP support for fEmail and some more
+image manipulation functionality for fImage. Feel free to
+[http://twitter.com/flourishlib follow Flourish on Twitter], or
+[http://feeds2.feedburner.com/flourishlib_blog subscribe to this blog] to learn
+more when they are released. 
+
+<<include path="../partials/footer.html">>

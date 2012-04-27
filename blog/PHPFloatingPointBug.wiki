@@ -1,0 +1,23 @@
+<<include path="../partials/header.html" title="PHP Floating Point Bug – Blog – Flourish">>
+
+= PHP Floating Point Bug =
+
+Just last week a rather serious denial of service (DoS) vulnerability was
+found in PHP, affecting versions 5.2.0 through 5.2.16 and 5.3.0 through 5.3.4.
+The bug, [http://bugs.php.net/53632 #53632], causes PHP to enter an infinite
+loop when working with the value `2.2250738585072011e-308` as a floating point
+number. The simple submission of this value to a site multiple times can easily
+cause the web server to become unresponsive to users.
+
+The good news is that if you are using fRequest::get() and passing `float` to
+the `$cast_to` parameter and Flourish r950 or newer, you will be automatically
+protected from this vulnerability. The value `2.2250738585072011e-308` will be
+converted to `2.2250738585072012e-308`, which resolves to the same floating
+point value, but does not cause the infinite loop.
+
+If you are using an older revision of Flourish, I strongly recommend you use
+the `flourish.rev` file in your Flourish directory with the
+[/docs/BackwardsCompatibilityBreak backwards compatibility breaks page] to
+upgrade your code to the latest revision.
+
+<<include path="../partials/footer.html">>

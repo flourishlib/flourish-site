@@ -1,0 +1,16 @@
+<<include path="../partials/header.html" title="PHP|Tek 2011 – Blog – Flourish">>
+
+= PHP|Tek 2011 =
+
+One week from today, the annual PHP|Tek conference returns to Chicago for the
+2011 edition. I'm excited that I'm able to attend this year, and I'd love to
+meet some Flourish users in person! So, whether you want to ask questions,
+suggest improvements, or grill me on the finer points of how to over-use
+regular expressions, I'm down. :-)
+
+The easiest way to get in contact will be through Twitter
+[http://twitter.com/flourishlib @flourishlib]. I'll also be
+available via my personal account, [http://twitter.com/wbond @wbond], but I'm
+going to try and keep that to replies. I look forward to meeting you there!
+
+<<include path="../partials/footer.html">>

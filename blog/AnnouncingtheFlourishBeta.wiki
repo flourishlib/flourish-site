@@ -1,0 +1,82 @@
+<<include path="../partials/header.html" title="Announcing the Flourish Beta – Blog – Flourish">>
+
+= Announcing the Flourish Beta =
+
+After about a year and a half of development and approximately 150k lines of
+code changes, Flourish is now officially in beta.
+
+Flourish is a general PHP library that is focused on being robust, yet easy
+to use, secure, portable and well documented. It is specifically ''not''
+referred to as a framework because it is quite different from most of the PHP
+MVC frameworks currently available.
+
+== Project Overview ==
+
+Here is a brief overview of the library:
+
+ - It is licensed under the MIT license
+ - It works with PHP 5.1+
+ - It loves Linux/BSD, Solaris and Windows environments
+ - It includes [/docs extensive documentation] covering all code,
+   plus the [/api API] and other general PHP topics
+ - It includes [/docs/Security features and guidance to make sites more secure]
+ - No shell access is required, simply [/docs/GettingStarted drop the classes
+   in and go]
+ - It uses UTF-8 everywhere and provides [/docs/fUTF8 UTF-8 functions] even
+   without the [http://php.net/mbstring mbstring] extension
+ - It supports [/docs/fDatabase MySQL, PostgreSQL, SQLite and Microsoft SQL
+   Server]
+ - It includes support for [/docs/FlourishSql one dialect of SQL] across all
+   database types
+ - It supports almost [/api/fDatabase all extensions for the supported
+   databases]
+ - It includes powerful, but intuitive [/docs/ObjectRelationalMapping
+   object-relational mapping] features
+   - Full support and auto-exploration of
+     [/docs/fActiveRecord#RelatedRecordsOperations foreign key relationships]
+   - Simple, shorthand notation for [fRecordSet querying sets of records]
+   - [/docs/fActiveRecord#CreatingandLoadingRecords Multi-column primary key
+     support]
+   - [/docs/fORM#ExtendingtheORM A simple plugin system] using hooks and
+     callbacks
+ - It can [/docs/fImage manipulate images] and automatically detects if GD or
+   ImageMagick is installed
+ - It provides [/docs/fNumber precise number support] even without the
+   [http://php.net/bc bcmath] extension
+ - It backports some PHP 5.2+ functionality to PHP 5.1 such as [/docs/fCookie
+   Httponly cookies] and [fJSON JSON]
+ - It includes [/docs/fCore error/exception handling and debugging features]
+   that make bug fixing much simpler 
+ - It is [/docs/InternationalizationLocalization built with
+   internationalization and localization in mind]
+
+== General Themes ==
+
+ - Almost every single one of the 59 classes provides functionality
+   useful to end-developers and the class APIs have been tweaked to be easy to
+   use and understand
+ - There is no desire for the project to provide an MVC architecture/framework,
+   instead the focus is on providing a usable and modular set of classes to
+   help solve common web development issues 
+ - Instead of having monolithic and infrequent releases, each class is
+   versioned separately and the library as a whole is versioned by the
+   subversion revision number for easy updates and bug fixes
+
+== Further Reading ==
+
+If you are interested in some more information, please check out:
+
+ - '''[/docs/Download Download]'''
+ - '''[/docs/GettingStarted Getting Started]'''
+ - '''[/docs/HowDoI How Do I … ?]'''
+ - '''[/docs Documentation]'''
+
+== Thanks ==
+
+As a final note, I’d like to say thanks to the following people for their
+encouragement and assistance in the development and testing of Flourish:
+[http://adaptivehatch.com Craig Ruksznis], [http://buoyantship.com Patrick
+McPhail], [http://davetufts.com Dave Tufts] and [http://imarc.net/bill Bill
+Bushee].
+
+<<include path="../partials/footer.html">>

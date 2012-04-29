@@ -13,7 +13,7 @@
 
 {{{
 #!raw
-<p><a href="https://github.com/flourishlib/flourish-classes/tags" class="newest-tag-href action"><span class="de-em">Download: </span><span class="newest-tag">latest</span>.zip</a></p>
+<p><a href="https://github.com/flourishlib/flourish-classes/tags" class="newest-tag-href action"><span class="de-em">Download: </span>v<span class="newest-tag">–</span></a></p>
 }}}
 
 If you are new to Flourish, be sure to check out [/docs/GettingStarted Getting

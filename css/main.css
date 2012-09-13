@@ -389,7 +389,8 @@ div.main_actions a.action {
 }
 
 div.main_actions a.action,
-div.main_actions div.action {
+div.main_actions div.action,
+a.action.newest-tag-href {
 	line-height: 1.2;
 	background-color: #8fb0d5;
 	background-image: -webkit-gradient(
@@ -419,7 +420,8 @@ div.main_actions div.action {
 		color: #fff;
 	}
 	div.main_actions a.action:hover,
-	div.main_actions div.action:hover {
+	div.main_actions div.action:hover,
+	a.action.newest-tag-href:hover {
 		background-color: #97b9e0;
 		background-image: -webkit-gradient(
 			linear,
@@ -451,3 +453,102 @@ ul.social {
 		ul.social li a img {
 			vertical-align: middle;
 		}
+
+div.results > em {
+	font-size: 2.0em;
+	color: #ccc;
+	font-style: normal;
+}
+
+div.results div.summary {
+	font-size: 1.1em;
+	margin-top: 20px;
+	overflow: hidden;
+	padding: 10px 20px;
+	color: #999;
+	background-color: #f3f3f3;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+}
+	div.results div.summary div.details a {
+		color: #777;
+		font-size: 0.9em;
+	}
+
+	div.results div.summary div span {
+		color: #333;
+	}
+
+	div.results div.summary div.commit,
+	div.results div.summary div.author,
+	div.results div.summary div.date {
+		width: 25%;
+		float: left;
+		clear: left;
+	}
+
+	div.results div.summary div.details {
+		float: left;
+		width: 25%;
+	}
+
+	div.results div.summary div.passed span,
+	div.results div.summary div.failed span {
+		display: block;
+	}
+		div.results div.summary div.passed {
+			float: right;
+			width: 25%;
+		}
+		div.results div.summary div.passed span {
+			font-size: 2.0em;
+			line-height: 1.2;
+		}
+		div.results div.summary.passed span.passed {
+			color: #73ab10;
+			font-weight: bold;
+		}
+
+	div.results div.summary.failed {
+
+	}
+		div.results div.summary div.failed {
+			float: right;
+			width: 25%;
+		}
+		div.results div.summary div.failed span {
+			font-size: 2.0em;
+			line-height: 1.2;
+		}
+		div.results div.summary.failed span.failed {
+			color: #dc2b02;
+			font-weight: bold;
+		}
+
+table.test_machines {
+	width: 100%;
+}
+
+	table.test_machines tr:nth-child(2n) {
+		background-color: #f3f3f3;
+	}
+
+div.output {
+	display: none;
+	clear: both;
+	padding: 0 0 0 10px;
+	font-size: 0.85em;
+}
+	div.output span.hostname {
+		display: block;
+		padding-top: 10px;
+		font-weight: bold;
+	}
+	div.output span.totals {
+		padding-left: 20px;
+	}
+	div.output pre.error_message {
+		margin-left: 20px;
+		color: #555;
+	}

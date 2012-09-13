@@ -1,13 +1,202 @@
 <<include path="./partials/header.html" title="Tests – Flourish">>
 
 = Tests =
+<<toc>>
 
 Flourish has a set of unit and integration tests to help ensure bugs don’t
 exist in the code base, helping developers focus on their code. These test
-are performed on all code pushed to the
-[https://github.com/flourishlib/flourish-staging flourish-staging repo].
-Each chart represents a different operating system and PHP version
-that the tests are run on. The tests source is available via
+are performed during development and before each release.
+Tests are performed on a wide variety of operating systems and different
+versions of PHP. The tests source is available via
 [https://github.com/flourishlib/flourish-tests GitHub].
+
+== Recent Results ==
+
+The complete set of tests results can be viewed at
+[https://github.com/flourishlib/flourish-tests-results GitHub].
+
+{{{
+#!raw
+<div class="results"><em>Loading…</em></div>
+
+<script src="/js/jquery.cookie.js"></script>
+<script src="/js/jquery.total-storage.min.js"></script>
+<script src="/js/base64.js"></script>
+<script src="/js/date_diff.js"></script>
+<script>
+function fetchContent(userRepo, path, callback)
+{
+    $.getJSON(
+        'https://api.github.com/repos/' + userRepo + '/contents/' + path + '?callback=?',
+        function(response) {
+            var base64Content = response.data.content.replace(/[\r\n]/g, '');
+            callback(base64Decode(base64Content));
+        }
+    );
+}
+function cachedContent(key, userRepo, path, callback) {
+    var cached = $.totalStorage(key);
+    if (cached) {
+        return callback(cached);
+    }
+
+    fetchContent(userRepo, path, function(data) {
+        $.totalStorage(key, data);
+        callback(data);
+    });
+}
+function cachedApi(key, url, callback) {
+    var cached = $.totalStorage(key);
+    if (cached) {
+        return callback(cached);
+    }
+
+    $.getJSON(
+        url,
+        function(data) {
+             $.totalStorage(key, data);
+            callback(data);
+        }
+    );
+}
+
+$(function() {
+    var sha1s;
+    var sha1Queue;
+    var testResults = {};
+    var commitDetails = {};
+
+    fetchContent(
+        'flourishlib/flourish-tests-results',
+        'index.json',
+        function(data) {
+            sha1s = $.parseJSON(data).slice(0, 20);
+            sha1Queue = $.parseJSON(data).slice(0, 20);
+            fetchResults();
+        }
+    );
+
+    function buildSummary(results)
+    {
+        var passed = 0;
+        var failed = 0;
+        for (host in results) {
+            details = results[host];
+            if (!details) {
+                continue;
+            }
+            passed += details.passed;
+            failed += details.failed + details.php_errors;
+        }
+        return {
+            total: passed + failed,
+            passed: passed,
+            failed: failed
+        };
+    }
+
+    function displayResult(sha1)
+    {
+        var url = "https://github.com/flourishlib/flourish-classes/commit/" + sha1;
+        var summary = buildSummary(testResults[sha1]);
+        var commit = commitDetails[sha1];
+        var date = new Date(commit.data.commit.author.date);
+        var html = $('\
+            <div class="summary">\
+                <div class="failed">Failed: <span class="failed"></span></div>\
+                <div class="passed">Passed: <span class="passed"></span></div>\
+                <div class="commit">Commit: <span class="commit"></span></div>\
+                <div class="author">Author: <span class="author"></span></div>\
+                <div class="date">Date: <span class="date"></span></div>\
+                <div class="details"><a href="#" class="details">Toggle details</a></div>\
+                <div class="output"></div>\
+            </div>\
+        ');
+        html.addClass(summary.total == summary.passed ? 'passed' : 'failed');
+        html.find('span.passed').text(summary.passed);
+        html.find('span.failed').text(summary.failed);
+        html.find('span.commit').html('<a href="' + url + '">' + sha1.substr(0, 8) + '</a>');
+        html.find('span.author').text(commit.data.commit.author.name);
+        html.find('span.date').text(date.diff());
+        html.find('div.date').attr('title', date.toString());
+        html.find('a.details').click(function() {
+            html.find('div.output').toggle();
+            return false;
+        });
+
+        var stats = testResults[sha1];
+        var output = html.find('div.output')
+        for (host in stats) {
+            hostStats = stats[host]
+            if (!hostStats) {
+                continue;
+            }
+            var div = $('<div class="host"></div>');
+            div.append('<span class="hostname">' + host + '</span>');
+            div.append('<span class="totals">' + hostStats.passed + ' passed, ' + hostStats.failed + ' failed, ' + hostStats.skipped + ' skipped, ' + hostStats.php_errors + ' PHP errors</span>');
+            for (var i=0; i < hostStats.error_messages.length; i++) {
+                var errorMessage = hostStats.error_messages[i];
+                var pre = $('<pre></pre>').text(errorMessage).addClass('error_message');
+                div.append(pre);
+            }
+            output.append(div);
+        }
+
+        var container = $('div.results');
+        if (container.text() == 'Loading…') {
+            container.text('');
+        }
+        container.append(html);
+    }
+
+    function fetchResults()
+    {
+        if (!sha1Queue.length) {
+            return;
+        }
+
+        var sha1 = sha1Queue.shift();
+
+        cachedContent(
+            sha1,
+            'flourishlib/flourish-tests-results',
+            'results/' + sha1 + '.json',
+            function(data) {
+                testResults[sha1] = $.parseJSON(data);
+                
+                cachedApi(
+                    sha1 + '-commit',
+                    'https://api.github.com/repos/flourishlib/flourish-classes/commits/' + sha1 + '?callback=?',
+                    function(response) {
+                        commitDetails[sha1] = response;
+                        displayResult(sha1);
+                        fetchResults();
+                    }
+                );
+            }
+        );
+    }
+});
+</script>
+}}}
+
+== Testing Environments ==
+
+The following is a list of the currently configured test environments.
+
+<<css mode="next" class="test_machines">>
+| '''Hostname'''             | '''OS'''            | '''PHP Version''' |
+| vm-centos.wbond.net        | CentOS 5.3          | PHP 5.1.6         |
+| vm-debian.wbond.net        | Debian 5.0          | PHP 5.2.6         |
+| vm-fedora.wbond.net        | Fedora 12           | PHP 5.3.2         |
+| vm-freebsd.wbond.net       | FreeBSD 7.2         | PHP 5.2.12        |
+| vm-netbsd.wbond.net        | NetBSD 5.0.1        | PHP 5.2.13        |
+| vm-openbsd.wbond.net       | OpenBSD 4.5         | PHP 5.2.8         |
+| vm-opensolaris.wbond.net   | OpenSolaris 2009.06 | PHP 5.2.9         |
+| vm-opensuse.wbond.net      | OpenSuSE 11.2       | PHP 5.3.1         |
+| osx.wbond.net              | OS X 10.6           | PHP 5.3.1         |
+| vm-server2008.wbond.net    | Windows Server 2008 | PHP 5.3.3         |
+| vm-ubuntu.wbond.net        | Ubuntu 8.04 LTS     | PHP 5.2.4         |
+| vm-xp.wbond.net            | Windows XP          | PHP 5.2.11        |
 
 <<include path="./partials/footer.html">>

@@ -1,0 +1,7 @@
+<<include path="./partials/header.html" title="Not Found – Flourish">>
+
+= Not Found =
+
+Unfortunately the content you were looking for could not be found.
+
+<<include path="./partials/footer.html">>

@@ -21,13 +21,20 @@ Started] and [/docs/HowDoI How Do I…?].
 
 == Git ==
 
-Primary Flourish development happens in git using GitHub as a central hub.
+If you are just interested in using Flourish as part of another project, it
+can be obtained from the `flourish-classes` repository on GitHub:
 
-'''Git Repository:''' git://github.com/flourishlib/flourish.git
+'''Git Repository:''' git://github.com/flourishlib/flourish-classes.git
 
-'''Clone Command:''' `git clone git://github.com/flourishlib/flourish.git`
+'''Clone Command:''' `git clone git://github.com/flourishlib/flourish-classes.git`
 
-'''GitHub Project:''' https://github.com/flourishlib/flourish
+'''GitHub Project:''' https://github.com/flourishlib/flourish-classes
+
+=== Development ===
+
+Primary Flourish development happens in git using GitHub as a central hub. The
+main [https://github.com/flourishlib/flourish flourish] repository contains
+submodules for the various parts of the Flourish infrastructure.
 
 == SVN, Mercurial, Others ==
 

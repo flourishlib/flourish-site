@@ -186,6 +186,7 @@ The following is a list of the currently configured test environments.
 
 <<css mode="next" class="test_machines">>
 | '''Hostname'''             | '''OS'''            | '''PHP Version''' |
+| vm-arch.wbond.net          | Arch 2012.09.07     | PHP 5.4.7         |
 | vm-centos.wbond.net        | CentOS 5.3          | PHP 5.1.6         |
 | vm-debian.wbond.net        | Debian 5.0          | PHP 5.2.6         |
 | vm-fedora.wbond.net        | Fedora 12           | PHP 5.3.2         |
